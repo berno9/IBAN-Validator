@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "IBAN Validator",
+  "version": "1.0",
+  "description": "Quickly validate International Bank Account Numbers (IBANs) with detailed error messages and country-specific checks.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Validate IBAN"
+  },
+  "permissions": [],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
