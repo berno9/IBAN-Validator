@@ -96,7 +96,7 @@ iban_validator/
 ├── manifest.json      # Extension configuration
 ├── popup.html         # Extension popup interface
 ├── popup.js           # Main validation logic
-├── icon.png           # Extension icon
+├── icon_128x128.png           # Extension icon
 ├── README.md          # This file
 └── PRIVACY.md         # Privacy policy
 ```

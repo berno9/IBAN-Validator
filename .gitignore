@@ -1,0 +1,35 @@
+# Extension related folders or files 
+iban_validator_package/ 
+iban_validator_package.crx
+iban_validator_package.pem
+iban_validator_package.zip
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+chrome_store_description.txt
+icon_16x16.png
+icon_32x32.png
+icon_48x48.png
+icon.jpg
