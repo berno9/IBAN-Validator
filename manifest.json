@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "IBAN Validator",
   "version": "1.1",
-  "description": "Quickly validate International Bank Account Numbers (IBANs) with detailed error messages, country-specific checks, and sample IBAN generation.",
+  "description": "Quickly validate International Bank Account Numbers (IBANs) with country-specific checks, and sample IBAN generation.",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Validate IBAN"
