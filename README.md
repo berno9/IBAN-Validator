@@ -146,10 +146,10 @@ This project is open source. See the repository for license details.
 This extension operates entirely offline and does not collect, store, or transmit any user data. See [PRIVACY.md](PRIVACY.md) for full details.
 
 ## 📞 Support
-
+- **Web Store Link**: [https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh](https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh)
+- **Repository**: [https://github.com/berno9/IBAN-Validator](https://github.com/berno9/IBAN-Validator)
 - **Web Store**: Official releases coming soon to Chrome Web Store and Edge Add-ons
 - **Issues**: Report bugs or request features via GitHub Issues
-- **Repository**: [https://github.com/berno9/IBAN-Validator](https://github.com/berno9/IBAN-Validator)
 - **Updates**: Follow the repository for release announcements
 
 ---
