@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Icon Resizer Script for Browser Extensions
 
@@ -15,28 +14,24 @@ import argparse
 import os
 import sys
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 
 try:
-    from PIL import Image, ImageOps
+    from PIL import Image
 except ImportError:
     print("Error: Pillow library is required.")
     print("Install it with: pip install Pillow")
     sys.exit(1)
 
 
-def optimize_png(image: Image.Image, quality: int = 85) -> Image.Image:
-    """
-    Optimize PNG image for smaller file size while maintaining quality.
+def optimize_png(image: Image.Image, quality: int = 85, preserve_transparency: bool = True) -> Image.Image:
+    # If preserving transparency and image has alpha channel, keep it
+    if preserve_transparency and image.mode in ('RGBA', 'P'):
+        if image.mode == 'P':
+            image = image.convert('RGBA')
+        return image
     
-    Args:
-        image: PIL Image object
-        quality: Optimization level (0-100, higher = better quality)
-    
-    Returns:
-        Optimized PIL Image object
-    """
-    # Convert to RGB if necessary (for better compression)
+    # Convert to RGB if necessary (for better compression) - only if not preserving transparency
     if image.mode in ('RGBA', 'P'):
         # Create a white background for transparency
         background = Image.new('RGB', image.size, (255, 255, 255))
@@ -52,20 +47,7 @@ def optimize_png(image: Image.Image, quality: int = 85) -> Image.Image:
 
 def resize_icon(input_path: str, output_path: str = None, 
                 target_size: int = None, quality: int = 85, 
-                maintain_aspect: bool = True) -> bool:
-    """
-    Resize a square icon to reduce file size.
-    
-    Args:
-        input_path: Path to input PNG file
-        output_path: Path for output file (optional)
-        target_size: Target width/height in pixels (optional)
-        quality: Optimization quality (0-100)
-        maintain_aspect: Whether to maintain aspect ratio
-    
-    Returns:
-        True if successful, False otherwise
-    """
+                maintain_aspect: bool = True, preserve_transparency: bool = True) -> bool:
     try:
         # Open and validate image
         with Image.open(input_path) as img:
@@ -97,15 +79,18 @@ def resize_icon(input_path: str, output_path: str = None,
                 print(f"Resized to: {target_size}x{target_size} pixels")
             
             # Optimize the image
-            img = optimize_png(img, quality)
+            img = optimize_png(img, quality, preserve_transparency)
             
             # Determine output path
             if output_path is None:
                 input_path_obj = Path(input_path)
                 output_path = input_path_obj.parent / f"{input_path_obj.stem}_resized{input_path_obj.suffix}"
             
-            # Save optimized image
-            img.save(output_path, 'PNG', optimize=True, quality=quality)
+            # Save optimized image with proper format for transparency
+            if preserve_transparency and img.mode == 'RGBA':
+                img.save(output_path, 'PNG', optimize=True)
+            else:
+                img.save(output_path, 'PNG', optimize=True, quality=quality)
             
             # Get file size information
             original_size_bytes = os.path.getsize(input_path)
@@ -125,19 +110,8 @@ def resize_icon(input_path: str, output_path: str = None,
 
 
 def create_extension_icon_set(input_path: str, sizes: List[int] = None, 
-                             output_dir: str = None, quality: int = 85) -> bool:
-    """
-    Create a complete set of extension icons in multiple sizes.
-    
-    Args:
-        input_path: Path to input PNG file
-        sizes: List of sizes to generate (default: [16, 32, 48, 128])
-        output_dir: Output directory (default: same as input)
-        quality: Optimization quality (0-100)
-    
-    Returns:
-        True if all icons created successfully
-    """
+                             output_dir: str = None, quality: int = 85, 
+                             preserve_transparency: bool = True) -> bool:
     if sizes is None:
         sizes = [16, 32, 48, 128]  # Standard extension icon sizes
     
@@ -162,7 +136,7 @@ def create_extension_icon_set(input_path: str, sizes: List[int] = None,
         output_path = output_dir / f"{base_name}_{size}x{size}.png"
         print(f"\nCreating {size}x{size} icon...")
         
-        if resize_icon(input_path, str(output_path), size, quality):
+        if resize_icon(input_path, str(output_path), size, quality, True, preserve_transparency):
             success_count += 1
             total_original_size += os.path.getsize(input_path)
             total_new_size += os.path.getsize(output_path)
@@ -200,6 +174,9 @@ Examples:
   
   # Create icon set in specific directory
   python resize_icons.py icon.png --icon-set --output-dir ./icons/
+  
+  # Remove transparency (add white background)
+  python resize_icons.py icon.png --no-transparency
         """
     )
     
@@ -213,6 +190,8 @@ Examples:
     parser.add_argument('--sizes', nargs='+', type=int, 
                        help='Custom sizes for icon set (e.g., --sizes 16 32 48 128)')
     parser.add_argument('--output-dir', help='Output directory for icon set')
+    parser.add_argument('--no-transparency', action='store_true',
+                       help='Remove transparency by adding white background')
     
     args = parser.parse_args()
     
@@ -230,13 +209,16 @@ Examples:
         sys.exit(1)
     
     try:
+        preserve_transparency = not args.no_transparency
+        
         if args.icon_set:
             # Create extension icon set
             success = create_extension_icon_set(
                 args.input, 
                 args.sizes, 
                 args.output_dir, 
-                args.quality
+                args.quality,
+                preserve_transparency
             )
             if not success:
                 sys.exit(1)
@@ -246,7 +228,9 @@ Examples:
                 args.input, 
                 args.output, 
                 args.size, 
-                args.quality
+                args.quality,
+                True,  # maintain_aspect
+                preserve_transparency
             )
             if not success:
                 sys.exit(1)
