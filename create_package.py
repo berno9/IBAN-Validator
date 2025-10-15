@@ -1,12 +1,9 @@
-# Extension Build Script
 # Creates a clean package for web store upload
 
-import os
 import shutil
 from pathlib import Path
 
 def create_extension_package():
-    """Create a clean extension package without development files."""
     
     # Source and destination directories
     source_dir = Path(".")
