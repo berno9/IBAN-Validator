@@ -10,6 +10,8 @@ This extension is actively being developed with new features planned for future 
 
 ### Current Features
 - **Real-time IBAN Validation**: Instant validation with detailed error messages
+- **Sample IBAN Generator**: Generate valid IBANs for any of 79+ supported countries
+- **One-Click Copy**: Click generated IBANs to instantly copy them to clipboard
 - **Country-Specific Validation**: Supports 79+ countries with proper length checks
 - **Auto-formatting**: Automatically adds spaces every 4 characters for readability
 - **Mod-97 Checksum Verification**: Full mathematical validation according to ISO 13616
@@ -60,6 +62,7 @@ cd IBAN-Validator
 
 ## 🚀 Usage
 
+### IBAN Validation
 1. **Click the extension icon** in your browser toolbar
 2. **Enter an IBAN** in the input field (e.g., `DE89370400440532013000`)
 3. **Click "Validate IBAN"** or press Enter
@@ -67,6 +70,12 @@ cd IBAN-Validator
    - ✅ **Green**: Valid IBAN
    - ❌ **Red**: Invalid IBAN with specific error message
    - ⚠️ **Yellow**: Warning (e.g., empty input)
+
+### IBAN Generation
+1. **Select a country** from the dropdown menu
+2. **Click "Generate Sample IBAN"** to create a valid IBAN
+3. **Click the generated IBAN** to copy it to your clipboard
+4. **Test the generated IBAN** using the validation feature above
 
 ### Example IBANs for Testing
 - **Valid German IBAN**: `DE89 3704 0044 0532 0130 00`
@@ -103,6 +112,7 @@ iban_validator/
 
 ### Code Highlights
 - **Comprehensive Country Support**: 79+ countries with accurate length validation
+- **IBAN Generation**: Creates mathematically valid sample IBANs for testing
 - **Robust Error Handling**: Specific error messages for different failure types
 - **Modern JavaScript**: ES6+ features with clean, readable code
 - **Performance Optimized**: Efficient mod-97 algorithm for large numbers
@@ -110,8 +120,7 @@ iban_validator/
 ## 🔮 Planned Features
 
 - 🌍 **Multi-language Support**: Interface in multiple languages
-- 📋 **Copy to Clipboard**: Quick copy button for validated IBANs
-- 📊 **Validation History**: Keep track of recently validated IBANs
+-  **Validation History**: Keep track of recently validated IBANs
 - 🎨 **Theme Options**: Dark mode and custom themes
 - 📱 **Mobile Support**: Firefox Mobile extension
 - 🔍 **Bank Information**: Display bank details for valid IBANs

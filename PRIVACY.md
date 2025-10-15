@@ -1,6 +1,6 @@
 # Privacy Policy for IBAN Validator Extension
 
-**Last Updated**: September 18, 2025
+**Last Updated**: October 15, 2025
 
 ## Overview
 
@@ -22,9 +22,9 @@ The IBAN Validator browser extension is committed to protecting your privacy. Th
 ## How the Extension Works
 
 ### Client-Side Only Operation
-- All IBAN validation is performed **locally** on your device
+- All IBAN validation and generation is performed **locally** on your device
 - **No data is transmitted** to external servers
-- **No internet connection** is required for validation
+- **No internet connection** is required for validation or generation
 - Your IBAN data **never leaves your browser**
 
 ### Permissions
@@ -38,7 +38,7 @@ The extension requests **zero permissions** from your browser, ensuring:
 
 ### Local Storage
 - **No data is stored** permanently by the extension
-- IBAN inputs are only held temporarily in memory during validation
+- IBAN inputs and generated samples are only held temporarily in memory during use
 - Data is automatically cleared when you close the extension popup
 - No validation history or cache is maintained
 
