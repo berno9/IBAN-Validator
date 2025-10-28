@@ -81,7 +81,6 @@ function validateIBANDetailed(iban) {
     return { isValid: false, message: "IBAN must start with 2 letters and 2 digits" };
   }
   
-  // Country code to length mapping
   const countryLengths = {
     AD: 24, AE: 23, AL: 28, AT: 20, AZ: 28, BA: 20, BE: 16, BG: 22,
     BH: 22, BR: 29, BY: 28, CH: 21, CR: 22, CY: 28, CZ: 24, DE: 22,
@@ -209,11 +208,9 @@ const countryData = {
   XK: { name: "Kosovo", length: 20 }
 };
 
-// Populate the country dropdown
 function populateCountryDropdown() {
   const select = document.getElementById("countrySelect");
   
-  // Convert to array and sort by country name
   const sortedCountries = Object.entries(countryData)
     .sort((a, b) => a[1].name.localeCompare(b[1].name));
   
@@ -225,14 +222,12 @@ function populateCountryDropdown() {
   });
 }
 
-// Generate a sample IBAN for a given country
 function generateSampleIban(countryCode) {
   const country = countryData[countryCode];
   if (!country) {
     throw new Error(`Unsupported country: ${countryCode}`);
   }
   
-  // Start with country code and placeholder check digits
   let iban = countryCode + "00";
   
   // Generate random digits for the rest of the IBAN
@@ -241,15 +236,12 @@ function generateSampleIban(countryCode) {
     iban += Math.floor(Math.random() * 10);
   }
   
-  // Calculate and set the correct check digits
   const checkDigits = calculateCheckDigits(iban);
   iban = countryCode + checkDigits + iban.slice(4);
   
-  // Format with spaces for readability
   return iban.match(/.{1,4}/g).join(" ");
 }
 
-// Calculate the correct check digits for an IBAN
 function calculateCheckDigits(iban) {
   // Replace the check digits with 00 for calculation
   const ibanForCalc = iban.slice(0, 2) + "00" + iban.slice(4);
@@ -260,7 +252,6 @@ function calculateCheckDigits(iban) {
   // Convert letters to numbers (A=10, B=11, ..., Z=35)
   const numeric = rearranged.replace(/[A-Z]/g, (char) => char.charCodeAt(0) - 55);
   
-  // Calculate remainder
   let remainder = numeric;
   while (remainder.length > 9) {
     const block = remainder.slice(0, 9);

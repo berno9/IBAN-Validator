@@ -1,6 +1,6 @@
 # IBAN Validator Browser Extension
 
-A powerful and user-friendly browser extension for validating International Bank Account Numbers (IBANs) with detailed error messages and country-specific validation.
+A powerful and user-friendly browser extension for validating International Bank Account Numbers (IBANs) with detailed error messages and country-specific validation (install it via [https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh](https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh)).
 
 ## 🚧 Work in Progress
 
@@ -28,8 +28,8 @@ The extension validates IBANs for all EU countries plus:
 
 ## 📦 Installation
 
-### 🌟 Recommended: Chrome Web Store (Coming Soon)
-The easiest and safest way to install IBAN Validator:
+### 🌟 Recommended: Chrome Web Store
+The easiest and safest way to install IBAN Validator:  [https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh](https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh)
 
 **📍 Extension will be available on:**
 - **Chrome Web Store** - One-click installation for Chrome/Edge users
@@ -41,8 +41,7 @@ The easiest and safest way to install IBAN Validator:
 - Easy management through browser settings
 - No technical setup required
 
-### 🔧 Early Access: Manual Installation
-For early adopters and developers who want to try the latest features before web store release:
+### 🔧 Manual Installation
 
 **For Users (Preview Access):**
 1. Download the extension files from the repository
@@ -58,7 +57,7 @@ cd IBAN-Validator
 # Load the folder as an unpacked extension in your browser
 ```
 
-> **💡 Note**: Manual installation is intended for testing and development. For the best user experience, we recommend waiting for the official web store release.
+> **💡 Note**: Manual installation is intended for testing and development. For the best user experience, we recommend using the official web store release.
 
 ## 🚀 Usage
 
@@ -146,7 +145,6 @@ This project is open source. See the repository for license details.
 This extension operates entirely offline and does not collect, store, or transmit any user data. See [PRIVACY.md](PRIVACY.md) for full details.
 
 ## 📞 Support
-- **Web Store Link**: [https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh](https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh)
 - **Repository**: [https://github.com/berno9/IBAN-Validator](https://github.com/berno9/IBAN-Validator)
 - **Web Store**: Official releases coming soon to Chrome Web Store and Edge Add-ons
 - **Issues**: Report bugs or request features via GitHub Issues
