@@ -1,9 +1,11 @@
 document.getElementById("validateBtn").addEventListener("click", () => {
   const iban = document.getElementById("ibanInput").value.trim();
   const result = document.getElementById("result");
+  const ibanDetails = document.getElementById("ibanDetails");
   
-  // Clear previous styling
+  // Clear previous styling and details
   result.className = "";
+  ibanDetails.style.display = "none";
   
   if (!iban) {
     result.textContent = "Please enter an IBAN";
@@ -14,6 +16,11 @@ document.getElementById("validateBtn").addEventListener("click", () => {
   const validation = validateIBANDetailed(iban);
   result.textContent = validation.message;
   result.className = validation.isValid ? "valid" : "invalid";
+  
+  // If valid, display detailed information
+  if (validation.isValid) {
+    displayIbanDetails(iban);
+  }
 });
 
 // IBAN Generator functionality
@@ -264,3 +271,173 @@ function calculateCheckDigits(iban) {
   // Ensure check digits are always 2 digits (pad with leading zero if needed)
   return checkDigits.toString().padStart(2, "0");
 }
+
+const ibanStructures = {
+  AD: { bankCode: [4, 8], branchCode: [8, 12], account: [12, 24] },
+  AE: { bankCode: [4, 7], account: [7, 23] },
+  AL: { bankCode: [4, 11], branchCode: [11, 15], account: [15, 28] },
+  AT: { bankCode: [4, 9], account: [9, 20] },
+  AZ: { bankCode: [4, 8], account: [8, 28] },
+  BA: { bankCode: [4, 7], branchCode: [7, 13], account: [13, 20] },
+  BE: { bankCode: [4, 7], account: [7, 16] },
+  BG: { bankCode: [4, 8], branchCode: [8, 12], account: [12, 22] },
+  BH: { bankCode: [4, 8], account: [8, 22] },
+  BR: { bankCode: [4, 12], branchCode: [12, 17], account: [17, 27] },
+  BY: { bankCode: [4, 8], branchCode: [8, 12], account: [12, 28] },
+  CH: { bankCode: [4, 9], account: [9, 21] },
+  CR: { bankCode: [4, 8], account: [8, 22] },
+  CY: { bankCode: [4, 7], branchCode: [7, 12], account: [12, 28] },
+  CZ: { bankCode: [4, 8], account: [8, 24] },
+  DE: { bankCode: [4, 12], account: [12, 22] },
+  DK: { bankCode: [4, 8], account: [8, 18] },
+  DO: { bankCode: [4, 8], account: [8, 28] },
+  EE: { bankCode: [4, 6], branchCode: [6, 8], account: [8, 20] },
+  EG: { bankCode: [4, 8], branchCode: [8, 12], account: [12, 29] },
+  ES: { bankCode: [4, 8], branchCode: [8, 12], account: [14, 24] },
+  FI: { bankCode: [4, 10], account: [10, 18] },
+  FO: { bankCode: [4, 8], account: [8, 18] },
+  FR: { bankCode: [4, 9], branchCode: [9, 14], account: [14, 25] },
+  GB: { bankCode: [4, 8], branchCode: [8, 14], account: [14, 22] },
+  GE: { bankCode: [4, 6], account: [6, 22] },
+  GI: { bankCode: [4, 8], account: [8, 23] },
+  GL: { bankCode: [4, 8], account: [8, 18] },
+  GR: { bankCode: [4, 7], branchCode: [7, 11], account: [11, 27] },
+  GT: { bankCode: [4, 8], account: [8, 28] },
+  HR: { bankCode: [4, 11], account: [11, 21] },
+  HU: { bankCode: [4, 7], branchCode: [7, 11], account: [12, 28] },
+  IE: { bankCode: [4, 8], branchCode: [8, 14], account: [14, 22] },
+  IL: { bankCode: [4, 7], branchCode: [7, 10], account: [10, 23] },
+  IS: { bankCode: [4, 8], branchCode: [8, 10], account: [10, 26] },
+  IT: { bankCode: [5, 10], branchCode: [10, 15], account: [15, 27] },
+  JO: { bankCode: [4, 8], branchCode: [8, 12], account: [12, 30] },
+  KW: { bankCode: [4, 8], account: [8, 30] },
+  KZ: { bankCode: [4, 7], account: [7, 20] },
+  LB: { bankCode: [4, 8], account: [8, 28] },
+  LC: { bankCode: [4, 8], account: [8, 32] },
+  LI: { bankCode: [4, 9], account: [9, 21] },
+  LT: { bankCode: [4, 9], account: [9, 20] },
+  LU: { bankCode: [4, 7], account: [7, 20] },
+  LV: { bankCode: [4, 8], account: [8, 21] },
+  MC: { bankCode: [4, 9], branchCode: [9, 14], account: [14, 25] },
+  MD: { bankCode: [4, 6], account: [6, 24] },
+  ME: { bankCode: [4, 7], account: [7, 20] },
+  MK: { bankCode: [4, 7], account: [7, 17] },
+  MR: { bankCode: [4, 9], branchCode: [9, 14], account: [14, 27] },
+  MT: { bankCode: [4, 8], branchCode: [8, 13], account: [13, 31] },
+  MU: { bankCode: [4, 8], branchCode: [8, 14], account: [14, 28] },
+  NL: { bankCode: [4, 8], account: [8, 18] },
+  NO: { bankCode: [4, 8], account: [8, 15] },
+  PK: { bankCode: [4, 8], account: [8, 24] },
+  PL: { bankCode: [4, 12], account: [12, 28] },
+  PS: { bankCode: [4, 8], account: [8, 29] },
+  PT: { bankCode: [4, 8], branchCode: [8, 12], account: [12, 25] },
+  QA: { bankCode: [4, 8], account: [8, 29] },
+  RO: { bankCode: [4, 8], account: [8, 24] },
+  RS: { bankCode: [4, 7], account: [7, 20] },
+  SA: { bankCode: [4, 6], account: [6, 24] },
+  SE: { bankCode: [4, 7], account: [7, 24] },
+  SI: { bankCode: [4, 9], account: [9, 17] },
+  SK: { bankCode: [4, 8], account: [8, 24] },
+  SM: { bankCode: [5, 10], branchCode: [10, 15], account: [15, 27] },
+  TN: { bankCode: [4, 6], branchCode: [6, 9], account: [9, 24] },
+  TR: { bankCode: [4, 9], account: [9, 26] },
+  UA: { bankCode: [4, 10], account: [10, 29] },
+  VG: { bankCode: [4, 8], account: [8, 24] },
+  XK: { bankCode: [4, 6], branchCode: [6, 8], account: [8, 20] }
+};
+
+function parseIban(iban) {
+  iban = iban.replace(/\s+/g, "").toUpperCase();
+  
+  const countryCode = iban.slice(0, 2);
+  const checkDigits = iban.slice(2, 4);
+  const structure = ibanStructures[countryCode];
+  
+  const parsed = {
+    countryCode: countryCode,
+    countryName: countryData[countryCode]?.name || "Unknown",
+    checkDigits: checkDigits,
+    bankCode: null,
+    branchCode: null,
+    accountNumber: null,
+    bban: iban.slice(4) // Basic Bank Account Number (everything after country code and check digits)
+  };
+  
+  if (structure) {
+    if (structure.bankCode) {
+      parsed.bankCode = iban.slice(structure.bankCode[0], structure.bankCode[1]);
+    }
+    if (structure.branchCode) {
+      parsed.branchCode = iban.slice(structure.branchCode[0], structure.branchCode[1]);
+    }
+    if (structure.account) {
+      parsed.accountNumber = iban.slice(structure.account[0], structure.account[1]);
+    }
+  }
+  
+  return parsed;
+}
+
+function displayIbanDetails(iban) {
+  const parsed = parseIban(iban);
+  const detailsDiv = document.getElementById("ibanDetails");
+  const structureDiv = document.getElementById("ibanStructure");
+  const infoDiv = document.getElementById("ibanInfo");
+  
+  // Create visual structure breakdown
+  const cleanIban = iban.replace(/\s+/g, "").toUpperCase();
+  let structureHTML = '<div class="structure-parts">';
+  
+  // Country Code
+  structureHTML += `<span class="part-country" title="Country Code">${cleanIban.slice(0, 2)}</span>`;
+  
+  // Check Digits
+  structureHTML += `<span class="part-check" title="Check Digits">${cleanIban.slice(2, 4)}</span>`;
+  
+  // Bank Code
+  const structure = ibanStructures[parsed.countryCode];
+  if (structure && structure.bankCode) {
+    structureHTML += `<span class="part-bank" title="Bank Code">${cleanIban.slice(structure.bankCode[0], structure.bankCode[1])}</span>`;
+  }
+  
+  // Branch Code
+  if (structure && structure.branchCode) {
+    structureHTML += `<span class="part-branch" title="Branch Code">${cleanIban.slice(structure.branchCode[0], structure.branchCode[1])}</span>`;
+  }
+  
+  // Account Number
+  if (structure && structure.account) {
+    structureHTML += `<span class="part-account" title="Account Number">${cleanIban.slice(structure.account[0], structure.account[1])}</span>`;
+  } else {
+    // If no specific structure, show remaining as BBAN
+    structureHTML += `<span class="part-bban" title="Basic Bank Account Number">${cleanIban.slice(4)}</span>`;
+  }
+  
+  structureHTML += '</div>';
+  structureDiv.innerHTML = structureHTML;
+  
+  // Create information list
+  let infoHTML = '<div class="info-grid">';
+  infoHTML += `<div class="info-row"><span class="info-label">Country:</span><span class="info-value">${parsed.countryName} (${parsed.countryCode})</span></div>`;
+  infoHTML += `<div class="info-row"><span class="info-label">Check Digits:</span><span class="info-value">${parsed.checkDigits}</span></div>`;
+  
+  if (parsed.bankCode) {
+    infoHTML += `<div class="info-row"><span class="info-label">Bank Code:</span><span class="info-value">${parsed.bankCode}</span></div>`;
+  }
+  
+  if (parsed.branchCode) {
+    infoHTML += `<div class="info-row"><span class="info-label">Branch Code:</span><span class="info-value">${parsed.branchCode}</span></div>`;
+  }
+  
+  if (parsed.accountNumber) {
+    infoHTML += `<div class="info-row"><span class="info-label">Account Number:</span><span class="info-value">${parsed.accountNumber}</span></div>`;
+  }
+  
+  infoHTML += `<div class="info-row"><span class="info-label">BBAN:</span><span class="info-value">${parsed.bban}</span></div>`;
+  infoHTML += `<div class="info-row"><span class="info-label">Length:</span><span class="info-value">${cleanIban.length} characters</span></div>`;
+  infoHTML += '</div>';
+  
+  infoDiv.innerHTML = infoHTML;
+  detailsDiv.style.display = "block";
+}
+

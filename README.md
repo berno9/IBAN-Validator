@@ -1,6 +1,12 @@
 # IBAN Validator Browser Extension
 
-A powerful and user-friendly browser extension for validating International Bank Account Numbers (IBANs) with detailed error messages and country-specific validation (install it via [https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh](https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh)).
+## Installation
+
+Install this extension via [https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh](https://chromewebstore.google.com/detail/iban-validator/ejddhihhcckmpkidmnlhjjfgbmjgdcgh).
+
+## Introduction
+
+A powerful and user-friendly browser extension for validating International Bank Account Numbers (IBANs) with detailed error messages and country-specific validation .
 
 ## 🚧 Work in Progress
 
@@ -10,6 +16,8 @@ This extension is actively being developed with new features planned for future 
 
 ### Current Features
 - **Real-time IBAN Validation**: Instant validation with detailed error messages
+- **IBAN Structure Parsing**: Color-coded breakdown showing country, check digits, bank code, branch code, and account number
+- **Detailed Information Display**: Extracts and displays all IBAN components for valid IBANs
 - **Sample IBAN Generator**: Generate valid IBANs for any of 79+ supported countries
 - **One-Click Copy**: Click generated IBANs to instantly copy them to clipboard
 - **Country-Specific Validation**: Supports 79+ countries with proper length checks
@@ -69,6 +77,13 @@ cd IBAN-Validator
    - ✅ **Green**: Valid IBAN
    - ❌ **Red**: Invalid IBAN with specific error message
    - ⚠️ **Yellow**: Warning (e.g., empty input)
+5. **For valid IBANs**, see the detailed breakdown:
+   - Color-coded structure visualization
+   - Country information
+   - Bank code, branch code (when applicable)
+   - Account number
+   - BBAN (Basic Bank Account Number)
+   - IBAN length
 
 ### IBAN Generation
 1. **Select a country** from the dropdown menu
