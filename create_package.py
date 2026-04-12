@@ -1,4 +1,4 @@
-# Creates a clean package for web store upload
+# Creates a clean package for web store upload. Run resize_icons.py first.
 
 import shutil
 import zipfile
