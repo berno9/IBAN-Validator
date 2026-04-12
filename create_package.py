@@ -6,12 +6,10 @@ from pathlib import Path
 
 def create_extension_package():
     
-    # Source directory and output paths
     source_dir = Path(".")
     package_dir = Path("iban_validator_package")
     zip_file_path = Path("iban_validator_package.zip")
     
-    # Files to include in the extension package
     include_files = [
         "manifest.json",
         "popup.html", 
@@ -31,10 +29,8 @@ def create_extension_package():
         shutil.rmtree(package_dir)
         print(f"Removed existing: {package_dir}")
     
-    # Create package directory
     package_dir.mkdir()
     
-    # Copy files to directory and add to zip
     missing_files = []
     with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
         for file_name in include_files:
@@ -50,13 +46,13 @@ def create_extension_package():
                 print(f"Warning: {file_name} not found!")
     
     # Summary
-    print(f"\nExtension package created:")
-    print(f"  📁 Folder: {package_dir}")
-    print(f"  📦 Zip file: {zip_file_path}")
+    print("\nExtension package created:")
+    print(f"  Folder: {package_dir}")
+    print(f"  Zip file: {zip_file_path}")
     print("\nBoth are ready for web store upload!")
     
     if missing_files:
-        print(f"\n⚠️  Missing files: {', '.join(missing_files)}")
+        print(f"\n  Missing files: {', '.join(missing_files)}")
 
 if __name__ == "__main__":
     create_extension_package()
