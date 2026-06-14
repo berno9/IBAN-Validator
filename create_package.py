@@ -13,6 +13,9 @@ def create_extension_package():
     include_files = [
         "manifest.json",
         "popup.html", 
+        "iban-data.js",
+        "iban-validate.js",
+        "iban-generate.js",
         "popup.js",
         "icon_16x16.png",
         "icon_32x32.png",
