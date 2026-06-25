@@ -102,8 +102,8 @@ function renderGenerationTable(ibans) {
   document.querySelector(".copy-hint").style.display = "block";
 
   showCsvButton("generateCsvBtn", () => exportCsv(
-    ["IBAN"],
-    ibans.map(iban => [iban])
+    ["#", "IBAN"],
+    ibans.map((iban, i) => [i + 1, iban])
   ));
 }
 
