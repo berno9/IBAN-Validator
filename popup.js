@@ -1,60 +1,157 @@
 document.getElementById("validateBtn").addEventListener("click", () => {
-  const iban = document.getElementById("ibanInput").value.trim();
-  const result = document.getElementById("result");
-  const ibanDetails = document.getElementById("ibanDetails");
+  const lines = document.getElementById("ibanInput").value
+    .split("\n")
+    .map(l => l.trim())
+    .filter(Boolean);
 
-  result.className = "";
-  ibanDetails.style.display = "none";
+  const resultDiv = document.getElementById("result");
 
-  if (!iban) {
-    result.textContent = "Please enter an IBAN";
-    result.className = "warning";
+  if (!lines.length) {
+    resultDiv.textContent = "Please enter at least one IBAN";
+    resultDiv.className = "warning";
     return;
   }
 
-  const validation = validateIBANDetailed(iban);
-  result.textContent = validation.message;
-  result.className = validation.isValid ? "valid" : "invalid";
-
-  if (validation.isValid) {
-    displayIbanDetails(iban);
-  }
+  const rows = renderValidationResults(lines);
+  renderValidationTable(rows);
 });
+
+function renderValidationTable(rows) {
+  const resultDiv = document.getElementById("result");
+  resultDiv.className = "";
+  resultDiv.innerHTML = "";
+
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>IBAN</th>
+        <th>Status</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+  `;
+
+  const tbody = document.createElement("tbody");
+  rows.forEach(({ iban, isValid, message }) => {
+    const tr = document.createElement("tr");
+    tr.className = isValid ? "valid" : "invalid";
+    const details = isValid
+      ? (countryData[iban.replace(/\s/g, "").slice(0, 2)]?.name || iban.slice(0, 2))
+      : message;
+    tr.innerHTML = `
+      <td>${iban}</td>
+      <td>${isValid ? "✓ Valid" : "✗ Invalid"}</td>
+      <td>${details}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  resultDiv.appendChild(table);
+
+  showCsvButton("validateCsvBtn", () => exportCsv(
+    ["IBAN", "Status", "Details"],
+    rows.map(({ iban, isValid, message }) => [
+      iban,
+      isValid ? "Valid" : "Invalid",
+      isValid
+        ? (countryData[iban.replace(/\s/g, "").slice(0, 2)]?.name || iban.slice(0, 2))
+        : message
+    ])
+  ));
+}
+
+// ---------- Generation ----------
 
 document.getElementById("generateBtn").addEventListener("click", () => {
   const countryCode = document.getElementById("countrySelect").value;
-  const generatedIbanDiv = document.getElementById("generatedIban");
-  const copyHint = document.querySelector(".copy-hint");
+  const count = parseInt(document.getElementById("generateCount").value, 10);
 
   if (!countryCode) {
     alert("Please select a country first");
     return;
   }
 
-  const sampleIban = generateSampleIban(countryCode);
-  generatedIbanDiv.textContent = sampleIban;
-  generatedIbanDiv.style.display = "block";
-  copyHint.style.display = "block";
+  const ibans = Array.from({ length: count }, () => generateSampleIban(countryCode));
+  renderGenerationTable(ibans);
 });
 
-document.getElementById("generatedIban").addEventListener("click", () => {
-  const ibanText = document.getElementById("generatedIban").textContent;
-  navigator.clipboard.writeText(ibanText).then(() => {
-    const copyHint = document.querySelector(".copy-hint");
-    const originalText = copyHint.textContent;
-    copyHint.textContent = "Copied!";
-    setTimeout(() => { copyHint.textContent = originalText; }, 1000);
+function renderGenerationTable(ibans) {
+  const container = document.getElementById("generatedIbans");
+  container.innerHTML = "";
+
+  const table = document.createElement("table");
+  const tbody = document.createElement("tbody");
+
+  ibans.forEach(iban => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${iban}</td>`;
+    tr.addEventListener("click", () => {
+      navigator.clipboard.writeText(iban).then(() => {
+        tr.classList.add("copied");
+        setTimeout(() => tr.classList.remove("copied"), 1000);
+      });
+    });
+    tbody.appendChild(tr);
   });
-});
 
-document.getElementById("ibanInput").addEventListener("keypress", (e) => {
-  if (e.key === "Enter") document.getElementById("validateBtn").click();
-});
+  table.appendChild(tbody);
+  container.appendChild(table);
+
+  document.querySelector(".copy-hint").style.display = "block";
+
+  showCsvButton("generateCsvBtn", () => exportCsv(
+    ["IBAN"],
+    ibans.map(iban => [iban])
+  ));
+}
+
+// ---------- Shared utils ----------
+
+function showCsvButton(id, handler) {
+  let btn = document.getElementById(id);
+  if (!btn) {
+    btn = document.createElement("button");
+    btn.className = "csv-btn";
+    btn.id = id;
+    btn.textContent = "Download CSV";
+    btn.addEventListener("click", handler);
+    document.getElementById(
+      id === "validateCsvBtn" ? "result" : "generatedIbans"
+    ).after(btn);
+  }
+  btn.style.display = "block";
+}
+
+function exportCsv(headers, rows) {
+  const lines = [headers, ...rows].map(r => r.join(",")).join("\n");
+  const blob = new Blob([lines], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "ibans.csv";
+  a.click();
+}
+
+// ---------- Input formatting ----------
 
 document.getElementById("ibanInput").addEventListener("input", (e) => {
-  let value = e.target.value.replace(/\s/g, "").toUpperCase();
-  let formatted = value.match(/.{1,4}/g)?.join(" ") || value;
-  if (formatted !== e.target.value) e.target.value = formatted;
+  const lines = e.target.value.split("\n");
+  const formatted = lines.map(line => {
+    const value = line.replace(/\s/g, "").toUpperCase();
+    return value.match(/.{1,4}/g)?.join(" ") || value;
+  });
+  const result = formatted.join("\n");
+  if (result !== e.target.value) e.target.value = result;
+});
+
+// ---------- Misc ----------
+
+document.getElementById("ibanInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById("validateBtn").click();
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -61,52 +61,64 @@ function parseIban(iban) {
   };
 }
 
-function displayIbanDetails(iban) {
-  const parsed = parseIban(iban);
-  const detailsDiv = document.getElementById("ibanDetails");
-  const structureDiv = document.getElementById("ibanStructure");
-  const infoDiv = document.getElementById("ibanInfo");
+function renderValidationResults(ibans) {
+  const rows = ibans.map(raw => {
+    const iban = raw.trim();
+    if (!iban) return null;
+    const result = validateIBANDetailed(iban);
+    return { iban, ...result };
+  }).filter(Boolean);
 
-  const cleanIban = iban.replace(/\s+/g, "").toUpperCase();
-  const structure = ibanStructures[parsed.countryCode];
-
-  let structureHTML = '<div class="structure-parts">';
-  structureHTML += `<span class="part-country" title="Country Code">${cleanIban.slice(0, 2)}</span>`;
-  structureHTML += `<span class="part-check" title="Check Digits">${cleanIban.slice(2, 4)}</span>`;
-
-  if (structure?.bankCode) {
-    structureHTML += `<span class="part-bank" title="Bank Code">${cleanIban.slice(...structure.bankCode)}</span>`;
-  }
-  if (structure?.branchCode) {
-    structureHTML += `<span class="part-branch" title="Branch Code">${cleanIban.slice(...structure.branchCode)}</span>`;
-  }
-  if (structure?.account) {
-    structureHTML += `<span class="part-account" title="Account Number">${cleanIban.slice(...structure.account)}</span>`;
-  } else {
-    structureHTML += `<span class="part-bban" title="Basic Bank Account Number">${cleanIban.slice(4)}</span>`;
-  }
-
-  structureHTML += '</div>';
-  structureDiv.innerHTML = structureHTML;
-
-  let infoHTML = '<div class="info-grid">';
-  infoHTML += `<div class="info-row"><span class="info-label">Country:</span><span class="info-value">${parsed.countryName} (${parsed.countryCode})</span></div>`;
-  infoHTML += `<div class="info-row"><span class="info-label">Check Digits:</span><span class="info-value">${parsed.checkDigits}</span></div>`;
-
-  if (parsed.bankCode) {
-    infoHTML += `<div class="info-row"><span class="info-label">Bank Code:</span><span class="info-value">${parsed.bankCode}</span></div>`;
-  }
-  if (parsed.branchCode) {
-    infoHTML += `<div class="info-row"><span class="info-label">Branch Code:</span><span class="info-value">${parsed.branchCode}</span></div>`;
-  }
-  if (parsed.accountNumber) {
-    infoHTML += `<div class="info-row"><span class="info-label">Account Number:</span><span class="info-value">${parsed.accountNumber}</span></div>`;
-  }
-
-  infoHTML += `<div class="info-row"><span class="info-label">BBAN:</span><span class="info-value">${parsed.bban}</span></div>`;
-  infoHTML += `<div class="info-row"><span class="info-label">Length:</span><span class="info-value">${cleanIban.length} characters</span></div>`;
-  infoHTML += '</div>';
-
-  infoDiv.innerHTML = infoHTML;
-  detailsDiv.style.display = "block";
+  return rows;
 }
+
+// nice funcionality, maybe for later use
+// function displayIbanDetails(iban) {
+//   const parsed = parseIban(iban);
+//   const detailsDiv = document.getElementById("ibanDetails");
+//   const structureDiv = document.getElementById("ibanStructure");
+//   const infoDiv = document.getElementById("ibanInfo");
+//
+//   const cleanIban = iban.replace(/\s+/g, "").toUpperCase();
+//   const structure = ibanStructures[parsed.countryCode];
+//
+//   let structureHTML = '<div class="structure-parts">';
+//   structureHTML += `<span class="part-country" title="Country Code">${cleanIban.slice(0, 2)}</span>`;
+//   structureHTML += `<span class="part-check" title="Check Digits">${cleanIban.slice(2, 4)}</span>`;
+//
+//   if (structure?.bankCode) {
+//     structureHTML += `<span class="part-bank" title="Bank Code">${cleanIban.slice(...structure.bankCode)}</span>`;
+//   }
+//   if (structure?.branchCode) {
+//     structureHTML += `<span class="part-branch" title="Branch Code">${cleanIban.slice(...structure.branchCode)}</span>`;
+//   }
+//   if (structure?.account) {
+//     structureHTML += `<span class="part-account" title="Account Number">${cleanIban.slice(...structure.account)}</span>`;
+//   } else {
+//     structureHTML += `<span class="part-bban" title="Basic Bank Account Number">${cleanIban.slice(4)}</span>`;
+//   }
+//
+//   structureHTML += '</div>';
+//   structureDiv.innerHTML = structureHTML;
+//
+//   let infoHTML = '<div class="info-grid">';
+//   infoHTML += `<div class="info-row"><span class="info-label">Country:</span><span class="info-value">${parsed.countryName} (${parsed.countryCode})</span></div>`;
+//   infoHTML += `<div class="info-row"><span class="info-label">Check Digits:</span><span class="info-value">${parsed.checkDigits}</span></div>`;
+//
+//   if (parsed.bankCode) {
+//     infoHTML += `<div class="info-row"><span class="info-label">Bank Code:</span><span class="info-value">${parsed.bankCode}</span></div>`;
+//   }
+//   if (parsed.branchCode) {
+//     infoHTML += `<div class="info-row"><span class="info-label">Branch Code:</span><span class="info-value">${parsed.branchCode}</span></div>`;
+//   }
+//   if (parsed.accountNumber) {
+//     infoHTML += `<div class="info-row"><span class="info-label">Account Number:</span><span class="info-value">${parsed.accountNumber}</span></div>`;
+//   }
+//
+//   infoHTML += `<div class="info-row"><span class="info-label">BBAN:</span><span class="info-value">${parsed.bban}</span></div>`;
+//   infoHTML += `<div class="info-row"><span class="info-label">Length:</span><span class="info-value">${cleanIban.length} characters</span></div>`;
+//   infoHTML += '</div>';
+//
+//   infoDiv.innerHTML = infoHTML;
+//   detailsDiv.style.display = "block";
+// }

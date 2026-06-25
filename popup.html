@@ -25,16 +25,17 @@
       }
       
       #ibanInput { 
-        width: 100%; 
-        padding: 12px;
-        margin-bottom: 12px; 
-        border: 2px solid #e1e5e9;
-        border-radius: 6px;
-        font-size: 14px;
-        font-family: 'Courier New', monospace;
-        text-transform: uppercase;
-        box-sizing: border-box;
-      }
+          width: 100%; 
+          padding: 12px;
+          margin-bottom: 12px; 
+          border: 2px solid #e1e5e9;
+          border-radius: 6px;
+          font-size: 14px;
+          font-family: 'Courier New', monospace;
+          text-transform: uppercase;
+          box-sizing: border-box;
+          resize: vertical;
+        }
       
       #ibanInput:focus {
         outline: none;
@@ -98,131 +99,6 @@
         background: #f8f9fa;
         border-radius: 6px;
         border: 1px solid #e1e5e9;
-      }
-      
-      .details-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 10px;
-        margin-top: 12px;
-      }
-      
-      .details-title:first-child {
-        margin-top: 0;
-      }
-      
-      .structure-container {
-        background: white;
-        padding: 12px;
-        border-radius: 4px;
-        border: 1px solid #e1e5e9;
-        margin-bottom: 12px;
-      }
-      
-      .structure-parts {
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        font-weight: 600;
-        word-break: break-all;
-        line-height: 1.8;
-      }
-      
-      .structure-parts span {
-        padding: 2px 4px;
-        border-radius: 3px;
-        cursor: help;
-      }
-      
-      .part-country {
-        background: #e3f2fd;
-        color: #1565c0;
-        border: 1px solid #90caf9;
-      }
-      
-      .part-check {
-        background: #f3e5f5;
-        color: #6a1b9a;
-        border: 1px solid #ce93d8;
-      }
-      
-      .part-bank {
-        background: #fff3e0;
-        color: #e65100;
-        border: 1px solid #ffcc80;
-      }
-      
-      .part-branch {
-        background: #e8f5e9;
-        color: #2e7d32;
-        border: 1px solid #a5d6a7;
-      }
-      
-      .part-account {
-        background: #fce4ec;
-        color: #c2185b;
-        border: 1px solid #f48fb1;
-      }
-      
-      .part-bban {
-        background: #f5f5f5;
-        color: #424242;
-        border: 1px solid #e0e0e0;
-      }
-      
-      .info-grid {
-        background: white;
-        border-radius: 4px;
-        border: 1px solid #e1e5e9;
-        overflow: hidden;
-      }
-      
-      .info-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 12px;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 13px;
-      }
-      
-      .info-row:last-child {
-        border-bottom: none;
-      }
-      
-      .info-label {
-        font-weight: 600;
-        color: #555;
-      }
-      
-      .info-value {
-        color: #333;
-        font-family: 'Courier New', monospace;
-        text-align: right;
-        word-break: break-word;
-      }
-      
-      .legend {
-        margin-top: 12px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-      }
-      
-      .legend-item {
-        display: flex;
-        align-items: center;
-        font-size: 11px;
-        color: #666;
-      }
-      
-      .legend-color {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 2px;
-        margin-right: 4px;
-        border: 1px solid rgba(0,0,0,0.1);
       }
       
       .section-divider {
@@ -302,39 +178,122 @@
         margin-top: 4px;
         display: none;
       }
+
+        .generator-controls {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+
+        .generator-controls #countrySelect {
+          flex: 1;
+          margin-bottom: 0;
+        }
+
+        .generator-controls #generateCount {
+          width: 70px;
+          padding: 10px;
+          border: 2px solid #e1e5e9;
+          border-radius: 6px;
+          font-size: 14px;
+          box-sizing: border-box;
+          flex-shrink: 0;
+        }
+
+        .generator-controls #generateCount:focus {
+          outline: none;
+          border-color: #28a745;
+        }
+
+        #generatedIbans {
+          margin-top: 12px;
+        }
+
+        #result table, #generatedIbans table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 13px;
+          margin-top: 8px;
+        }
+
+        #result th, #generatedIbans th {
+          background: #f0f0f0;
+          padding: 8px;
+          text-align: left;
+          font-weight: 600;
+          border: 1px solid #e1e5e9;
+        }
+
+        #result td, #generatedIbans td {
+          padding: 8px;
+          border: 1px solid #e1e5e9;
+          font-family: 'Courier New', monospace;
+          word-break: break-all;
+        }
+
+        #result tr.valid td { background: #d4edda; color: #155724; }
+        #result tr.invalid td { background: #f8d7da; color: #721c24; }
+
+        button.csv-btn {
+          margin-top: 10px;
+          width: 100%;
+          padding: 10px;
+          background: #e8f4fc;
+          color: #007acc;
+          border: 1px solid #b3d9f2;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s, border-color 0.2s;
+        }
+
+        button.csv-btn:hover {
+          background: #cce8f6;
+          border-color: #007acc;
+        }
+
+        #generatedIbans tr {
+          cursor: pointer;
+        }
+
+        #generatedIbans tr:hover td {
+          background: #d4edda;
+        }
+
+        #generatedIbans tr.copied td {
+          background: #c3e6cb;
+        }
+
+        .copy-hint {
+          font-size: 11px;
+          color: #666;
+          text-align: center;
+          margin-top: 4px;
+          display: none;
+        }
     </style>
   </head>
   <body>
     <div class="container">
       <h3>IBAN Validator</h3>
-      <input id="ibanInput" type="text" placeholder="Enter IBAN (e.g., DE89370400440532013000)" maxlength="34" />
+      <textarea id="ibanInput" rows="5" placeholder="Enter one or more IBANs, one per line"></textarea>
       <button id="validateBtn">Validate IBAN</button>
       <div id="result"></div>
-      
-      <div id="ibanDetails" style="display: none;">
-        <div class="details-title">IBAN Structure</div>
-        <div id="ibanStructure" class="structure-container"></div>
-        <div class="details-title">Parsed Information</div>
-        <div id="ibanInfo"></div>
-        <div class="legend">
-          <span class="legend-item"><span class="legend-color part-country"></span> Country</span>
-          <span class="legend-item"><span class="legend-color part-check"></span> Check</span>
-          <span class="legend-item"><span class="legend-color part-bank"></span> Bank</span>
-          <span class="legend-item"><span class="legend-color part-branch"></span> Branch</span>
-          <span class="legend-item"><span class="legend-color part-account"></span> Account</span>
-        </div>
-      </div>
       
       <div class="section-divider"></div>
       
       <div class="generator-section">
         <div class="generator-title">Generate Sample IBAN</div>
-        <select id="countrySelect">
-          <option value="">Select a country...</option>
-        </select>
-        <button id="generateBtn">Generate Sample IBAN</button>
-        <div id="generatedIban"></div>
-        <div class="copy-hint">Click to copy to clipboard</div>
+        <div class="generator-controls">
+          <select id="countrySelect">
+            <option value="">Select a country...</option>
+          </select>
+          <input type="number" id="generateCount" value="1" min="1" max="500" />
+        </div>
+        <button id="generateBtn">Generate IBANs</button>
+        <div id="generatedIbans"></div>
+        <div class="copy-hint">Click a row to copy</div>
       </div>
       
       <div class="info">Supports all EU and international IBANs</div>
