@@ -27,7 +27,10 @@ function renderValidationTable(rows) {
       <tr>
         <th>IBAN</th>
         <th>Status</th>
-        <th>Details</th>
+        <th>Country</th>
+        <th>Bank Code</th>
+        <th>Branch Code</th>
+        <th>Account Number</th>
       </tr>
     </thead>
   `;
@@ -36,14 +39,25 @@ function renderValidationTable(rows) {
   rows.forEach(({ iban, isValid, message }) => {
     const tr = document.createElement("tr");
     tr.className = isValid ? "valid" : "invalid";
-    const details = isValid
-      ? (countryData[iban.replace(/\s/g, "").slice(0, 2)]?.name || iban.slice(0, 2))
-      : message;
-    tr.innerHTML = `
-      <td>${iban}</td>
-      <td>${isValid ? "✓ Valid" : "✗ Invalid"}</td>
-      <td>${details}</td>
+
+    if (isValid) {
+      const parsed = parseIban(iban);
+      tr.innerHTML = `
+          <td class="iban-cell" title="${iban}">${iban}</td>
+          <td title="Valid">Valid</td>
+          <td title="${parsed.countryName} (${parsed.countryCode})">${parsed.countryName} (${parsed.countryCode})</td>
+          <td title="${parsed.bankCode || "—"}">${parsed.bankCode || "—"}</td>
+          <td title="${parsed.branchCode || "—"}">${parsed.branchCode || "—"}</td>
+          <td title="${parsed.accountNumber || "—"}">${parsed.accountNumber || "—"}</td>
     `;
+    } else {
+      tr.innerHTML = `
+          <td class="iban-cell" title="${iban}">${iban}</td>
+          <td title="Invalid">Invalid</td>
+          <td colspan="4" title="${message}">${message}</td>
+        `;
+    }
+
     tbody.appendChild(tr);
   });
 
@@ -51,15 +65,15 @@ function renderValidationTable(rows) {
   resultDiv.appendChild(table);
 
   showCsvButton("validateCsvBtn", () => exportCsv(
-    ["IBAN", "Status", "Details"],
-    rows.map(({ iban, isValid, message }) => [
-      iban,
-      isValid ? "Valid" : "Invalid",
-      isValid
-        ? (countryData[iban.replace(/\s/g, "").slice(0, 2)]?.name || iban.slice(0, 2))
-        : message
-    ])
-  ));
+      ["#", "IBAN", "Status", "Country", "Bank Code", "Branch Code", "Account Number"],
+      rows.map(({ iban, isValid, message }, i) => {
+        if (isValid) {
+          const parsed = parseIban(iban);
+          return [i + 1, iban, "Valid", `${parsed.countryName} (${parsed.countryCode})`, parsed.bankCode || "", parsed.branchCode || "", parsed.accountNumber || ""];
+        }
+        return [i + 1, iban, "Invalid", message, "", "", ""];
+      })
+    ));
 }
 
 // ---------- Generation ----------
@@ -156,4 +170,7 @@ document.getElementById("ibanInput").addEventListener("keypress", (e) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   populateCountryDropdown();
+    const options = document.querySelectorAll("#countrySelect option[value]");
+    const random = options[Math.floor(Math.random() * options.length)];
+    random.selected = true;
 });

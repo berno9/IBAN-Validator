@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>IBAN Validator</title>
     <style>
       body { 
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         padding: 16px; 
-        width: 380px;
+        width: 520px;
         margin: 0;
         background: #f8f9fa;
       }
@@ -233,6 +234,36 @@
 
         #result tr.valid td { background: #d4edda; color: #155724; }
         #result tr.invalid td { background: #f8d7da; color: #721c24; }
+
+        #result td.iban-cell {
+          max-width: 120px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: help;
+        }
+
+        #result table {
+          table-layout: fixed;
+        }
+
+        #result td.iban-cell, #result th:nth-child(1) {
+          width: 50px;
+        }
+
+        #result th:nth-child(2), #result td:nth-child(2) {
+          width: 50px;
+        }
+
+        #result th:nth-child(3), #result td:nth-child(3) {
+          width: 110px;
+        }
+
+        #result td {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
         button.csv-btn {
           margin-top: 10px;
