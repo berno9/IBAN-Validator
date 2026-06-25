@@ -150,13 +150,20 @@ function exportCsv(headers, rows) {
 // ---------- Input formatting ----------
 
 document.getElementById("ibanInput").addEventListener("input", (e) => {
+  const start = e.target.selectionStart;
+  const end = e.target.selectionEnd;
+
   const lines = e.target.value.split("\n");
   const formatted = lines.map(line => {
     const value = line.replace(/\s/g, "").toUpperCase();
     return value.match(/.{1,4}/g)?.join(" ") || value;
   });
   const result = formatted.join("\n");
-  if (result !== e.target.value) e.target.value = result;
+
+  if (result !== e.target.value) {
+    e.target.value = result;
+    e.target.setSelectionRange(start, end);
+  }
 });
 
 // ---------- Misc ----------
