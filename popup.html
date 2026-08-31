@@ -76,15 +76,28 @@
     #scanBtn:hover {
       background: #e0a800;
     }
+
+    #scanStatus {
+      font-size: 12px;
+      color: #856404;
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 8px;
+      display: none;
+    }
       
       #result { 
-        margin-top: 16px; 
-        padding: 12px;
-        border-radius: 6px;
-        font-weight: 600;
-        text-align: center;
-        min-height: 20px;
-      }
+          border-radius: 6px;
+          font-weight: 600;
+          text-align: center;
+        }
+
+        #result:not(:empty) {
+          margin-top: 16px;
+          padding: 12px;
+        }
       
       .valid {
         background: #d4edda;
@@ -121,7 +134,7 @@
       
       .section-divider {
         border-top: 1px solid #e1e5e9;
-        margin: 0px 0 16px 0;
+        margin: 16px 0;
       }
       
       .generator-section {
@@ -333,6 +346,8 @@
         <button id="validateBtn" style="flex: 1">Validate IBANs</button>
         <button id="scanBtn">Scan Page</button>
       </div>
+
+      <div id="scanStatus"></div>
       <div id="result"></div>
       
       <div class="section-divider"></div>

@@ -77,27 +77,41 @@ function renderValidationTable(rows) {
 }
 
 document.getElementById("scanBtn").addEventListener("click", async () => {
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+    const scanStatus = document.getElementById("scanStatus");
+    scanStatus.style.display = "none";
 
-    const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: () => {
-            const text = document.body.innerText;
-            const ibanRegex = /\b[A-Z]{2}[0-9]{2}[A-Z0-9]{4,30}\b/g;
-            return text.match(ibanRegex) || [];
-        }
-    });
+    let tab, results;
 
-    const ibans = results[0].result;
-    const textarea = document.getElementById("ibanInput");
-
-    if (!ibans.length) {
-        textarea.value = "";
-        textarea.placeholder = "No IBANs found on this page.";
+    try {
+        [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+        results = await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: () => {
+                const text = document.body.innerText;
+                const ibanRegex = /\b[A-Z]{2}[0-9]{2}[A-Z0-9]{4,30}\b/g;
+                return text.match(ibanRegex) || [];
+            }
+        });
+    } catch {
+        scanStatus.textContent = "This page doesn't allow scanning.";
+        scanStatus.style.display = "block";
         return;
     }
 
-    textarea.value = ibans.join("\n");
+    const ibans = results[0].result;
+
+    if (!ibans.length) {
+        scanStatus.textContent = "No IBANs found on this page.";
+        scanStatus.style.display = "block";
+        return;
+    }
+
+    // scanning the page adds no duplicates
+    const textarea = document.getElementById("ibanInput");
+    const existing = textarea.value.split("\n").map(l => l.trim()).filter(Boolean);
+    const formatted = ibans.map(iban => iban.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ") || iban);
+    const merged = [...new Set([...existing, ...formatted])];
+    textarea.value = merged.join("\n");
 
 });
 
