@@ -76,6 +76,31 @@ function renderValidationTable(rows) {
     ));
 }
 
+document.getElementById("scanBtn").addEventListener("click", async () => {
+    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+
+    const results = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => {
+            const text = document.body.innerText;
+            const ibanRegex = /\b[A-Z]{2}[0-9]{2}[A-Z0-9]{4,30}\b/g;
+            return text.match(ibanRegex) || [];
+        }
+    });
+
+    const ibans = results[0].result;
+    const textarea = document.getElementById("ibanInput");
+
+    if (!ibans.length) {
+        textarea.value = "";
+        textarea.placeholder = "No IBANs found on this page.";
+        return;
+    }
+
+    textarea.value = ibans.join("\n");
+
+});
+
 // ---------- Generation ----------
 
 document.getElementById("generateBtn").addEventListener("click", () => {

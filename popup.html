@@ -59,6 +59,23 @@
       #validateBtn:hover {
         background: #005a9e;
       }
+
+    #scanBtn {
+      padding: 12px 16px;
+      background: #ffc107;
+      color: #444;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    #scanBtn:hover {
+      background: #e0a800;
+    }
       
       #result { 
         margin-top: 16px; 
@@ -312,7 +329,10 @@
     <div class="container">
       <h3>IBAN Validator</h3>
       <textarea id="ibanInput" rows="5" placeholder="Enter one or more IBANs, one per line"></textarea>
-      <button id="validateBtn">Validate IBAN</button>
+      <div style="display: flex; gap: 8px">
+        <button id="validateBtn" style="flex: 1">Validate IBANs</button>
+        <button id="scanBtn">Scan Page</button>
+      </div>
       <div id="result"></div>
       
       <div class="section-divider"></div>
