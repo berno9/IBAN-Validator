@@ -111,7 +111,7 @@ document.getElementById("scanBtn").addEventListener("click", async () => {
     const existing = textarea.value.split("\n").map(l => l.trim()).filter(Boolean);
     const formatted = ibans.map(iban => iban.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ") || iban);
     const merged = [...new Set([...existing, ...formatted])];
-    textarea.value = merged.join("\n");
+    textarea.value = merged.join("\n") + "\n";
 
 });
 
@@ -194,6 +194,7 @@ document.getElementById("ibanInput").addEventListener("input", (e) => {
 
   const lines = e.target.value.split("\n");
   const formatted = lines.map(line => {
+    // if (!line.trim()) return line;
     const value = line.replace(/\s/g, "").toUpperCase();
     return value.match(/.{1,4}/g)?.join(" ") || value;
   });
@@ -208,7 +209,7 @@ document.getElementById("ibanInput").addEventListener("input", (e) => {
 // ---------- Misc ----------
 
 document.getElementById("ibanInput").addEventListener("keypress", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
+  if (e.key === "Enter" && e.shiftKey) {
     e.preventDefault();
     document.getElementById("validateBtn").click();
   }
