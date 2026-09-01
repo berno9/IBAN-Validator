@@ -162,7 +162,7 @@ function renderGenerationTable(ibans) {
 
 document.getElementById("copyAllBtn").addEventListener("click", () => {
     const rows = document.querySelectorAll("#generatedIbans tbody tr");
-    const text = Array.from(rows).map(tr => tr.querySelector("td").textContent).join("\n");
+    const text = Array.from(rows).map(tr => tr.querySelector("td").textContent).join("\n") + "\n";
     navigator.clipboard.writeText(text).then(() => {
         const copyAll = document.getElementById("copyAllBtn");
         const original = copyAll.textContent;
