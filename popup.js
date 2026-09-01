@@ -160,6 +160,17 @@ function renderGenerationTable(ibans) {
   ));
 }
 
+document.getElementById("copyAllBtn").addEventListener("click", () => {
+    const rows = document.querySelectorAll("#generatedIbans tbody tr");
+    const text = Array.from(rows).map(tr => tr.querySelector("td").textContent).join("\n");
+    navigator.clipboard.writeText(text).then(() => {
+        const copyAll = document.getElementById("copyAllBtn");
+        const original = copyAll.textContent;
+        copyAll.textContent = "Copied!";
+        setTimeout(() => copyAll.textContent = original, 1000);
+    });
+});
+
 // ---------- Shared utils ----------
 
 function showCsvButton(id, handler) {
@@ -171,7 +182,7 @@ function showCsvButton(id, handler) {
     btn.textContent = "Download CSV";
     btn.addEventListener("click", handler);
     document.getElementById(
-      id === "validateCsvBtn" ? "result" : "generatedIbans"
+      id === "validateCsvBtn" ? "result" : "copyAllBtn"
     ).after(btn);
   }
   btn.style.display = "block";

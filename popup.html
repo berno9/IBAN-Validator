@@ -336,6 +336,19 @@
           margin-top: 4px;
           display: none;
         }
+
+        #copyAllBtn {
+          cursor: pointer;
+          color: #555;
+          padding: 2px 4px;
+          border-radius: 4px;
+          transition: background 0.2s, color 0.2s;
+        }
+
+        #copyAllBtn:hover {
+          background: #cce8f6;
+          color: #007acc;
+        }
     </style>
   </head>
   <body>
@@ -362,7 +375,7 @@
         </div>
         <button id="generateBtn">Generate IBANs</button>
         <div id="generatedIbans"></div>
-        <div class="copy-hint">Click a row to copy</div>
+        <div class="copy-hint">Click a row to copy · <span id="copyAllBtn">📋 Copy all</span></div>
       </div>
       
       <div class="info">Supports all EU and international IBANs</div>
