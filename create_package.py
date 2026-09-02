@@ -16,6 +16,7 @@ def create_extension_package():
         "iban-data.js",
         "iban-validate.js",
         "iban-generate.js",
+        "utils.js",
         "popup.js",
         "icon_16x16.png",
         "icon_32x32.png",

@@ -71,3 +71,63 @@ function renderValidationResults(ibans) {
 
   return rows;
 }
+
+function renderValidationTable(rows) {
+  const resultDiv = document.getElementById("result");
+  resultDiv.className = "";
+  resultDiv.innerHTML = "";
+
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>IBAN</th>
+        <th>Status</th>
+        <th>Country</th>
+        <th>Bank Code</th>
+        <th>Branch Code</th>
+        <th>Account Number</th>
+      </tr>
+    </thead>
+  `;
+
+  const tbody = document.createElement("tbody");
+  rows.forEach(({ iban, isValid, message }) => {
+    const tr = document.createElement("tr");
+    tr.className = isValid ? "valid" : "invalid";
+
+    if (isValid) {
+      const parsed = parseIban(iban);
+      tr.innerHTML = `
+          <td class="iban-cell" title="${iban}">${iban}</td>
+          <td title="Valid">Valid</td>
+          <td title="${parsed.countryName} (${parsed.countryCode})">${parsed.countryName} (${parsed.countryCode})</td>
+          <td title="${parsed.bankCode || "—"}">${parsed.bankCode || "—"}</td>
+          <td title="${parsed.branchCode || "—"}">${parsed.branchCode || "—"}</td>
+          <td title="${parsed.accountNumber || "—"}">${parsed.accountNumber || "—"}</td>
+    `;
+    } else {
+      tr.innerHTML = `
+          <td class="iban-cell" title="${iban}">${iban}</td>
+          <td title="Invalid">Invalid</td>
+          <td colspan="4" title="${message}">${message}</td>
+        `;
+    }
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  resultDiv.appendChild(table);
+
+  showCsvButton("validateCsvBtn", () => exportCsv(
+      ["#", "IBAN", "Status", "Country", "Bank Code", "Branch Code", "Account Number"],
+      rows.map(({ iban, isValid, message }, i) => {
+        if (isValid) {
+          const parsed = parseIban(iban);
+          return [i + 1, iban, "Valid", `${parsed.countryName} (${parsed.countryCode})`, parsed.bankCode || "", parsed.branchCode || "", parsed.accountNumber || ""];
+        }
+        return [i + 1, iban, "Invalid", message, "", "", ""];
+      })
+    ));
+}
