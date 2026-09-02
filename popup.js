@@ -1,4 +1,12 @@
-document.getElementById("validateBtn").addEventListener("click", () => {
+const ibanInput = document.getElementById("ibanInput");
+const clearBtn = document.getElementById("clearBtn");
+const validateBtn = document.getElementById("validateBtn");
+const scanBtn = document.getElementById("scanBtn");
+const generateBtn = document.getElementById("generateBtn");
+const copyAllBtn = document.getElementById("copyAllBtn");
+
+
+validateBtn.addEventListener("click", () => {
   const lines = document.getElementById("ibanInput").value
     .split("\n")
     .map(l => l.trim())
@@ -76,7 +84,7 @@ function renderValidationTable(rows) {
     ));
 }
 
-document.getElementById("scanBtn").addEventListener("click", async () => {
+scanBtn.addEventListener("click", async () => {
     const scanStatus = document.getElementById("scanStatus");
     scanStatus.style.display = "none";
 
@@ -112,12 +120,12 @@ document.getElementById("scanBtn").addEventListener("click", async () => {
     const formatted = ibans.map(iban => iban.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ") || iban);
     const merged = [...new Set([...existing, ...formatted])];
     textarea.value = merged.join("\n") + "\n";
-
+    clearBtn.style.display = "block";
 });
 
 // ---------- Generation ----------
 
-document.getElementById("generateBtn").addEventListener("click", () => {
+generateBtn.addEventListener("click", () => {
   const countryCode = document.getElementById("countrySelect").value;
   const count = parseInt(document.getElementById("generateCount").value, 10);
 
@@ -160,11 +168,10 @@ function renderGenerationTable(ibans) {
   ));
 }
 
-document.getElementById("copyAllBtn").addEventListener("click", () => {
+copyAllBtn.addEventListener("click", () => {
     const rows = document.querySelectorAll("#generatedIbans tbody tr");
     const text = Array.from(rows).map(tr => tr.querySelector("td").textContent).join("\n") + "\n";
     navigator.clipboard.writeText(text).then(() => {
-        const copyAll = document.getElementById("copyAllBtn");
         const original = copyAll.textContent;
         copyAll.textContent = "Copied!";
         setTimeout(() => copyAll.textContent = original, 1000);
@@ -199,7 +206,10 @@ function exportCsv(headers, rows) {
 
 // ---------- Input formatting ----------
 
-document.getElementById("ibanInput").addEventListener("input", (e) => {
+ibanInput.addEventListener("input", (e) => {
+
+  clearBtn.style.display = e.target.value ? "block" : "none"; 
+
   const start = e.target.selectionStart;
   const end = e.target.selectionEnd;
 
@@ -215,6 +225,12 @@ document.getElementById("ibanInput").addEventListener("input", (e) => {
     e.target.value = result;
     e.target.setSelectionRange(start, end);
   }
+});
+
+clearBtn.addEventListener("click", () => {
+    ibanInput.value = "";
+    clearBtn.style.display = "none";
+    ibanInput.focus();
 });
 
 // ---------- Misc ----------

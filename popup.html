@@ -42,6 +42,22 @@
         outline: none;
         border-color: #007acc;
       }
+
+        #clearBtn {
+          position: absolute;
+          top: 8px;
+          right: 24px;
+          font-size: 20px;
+          color: #aaa;
+          cursor: pointer;
+          display: none;
+          line-height: 1;
+          transition: color 0.2s;
+        }
+
+        #clearBtn:hover {
+          color: #dc3545;
+        }
       
       #validateBtn { 
         width: 100%; 
@@ -354,7 +370,10 @@
   <body>
     <div class="container">
       <h3>IBAN Validator</h3>
-      <textarea id="ibanInput" rows="5" placeholder="Enter one or more IBANs, one per line"></textarea>
+        <div style="position: relative;">
+          <textarea id="ibanInput" rows="5" placeholder="Enter one or more IBANs, one per line"></textarea>
+          <span id="clearBtn">×</span>
+        </div>
       <div style="display: flex; gap: 8px">
         <button id="validateBtn" style="flex: 1">Validate</button>
         <button id="scanBtn">Scan Page</button>
