@@ -218,14 +218,6 @@
         background: #d4edda;
       }
       
-      .copy-hint {
-        font-size: 11px;
-        color: #666;
-        text-align: center;
-        margin-top: 4px;
-        display: none;
-      }
-
         .generator-controls {
           display: flex;
           gap: 8px;
@@ -349,7 +341,7 @@
           font-size: 11px;
           color: #666;
           text-align: center;
-          margin-top: 4px;
+          margin: 8px auto;
           display: none;
         }
 
@@ -393,8 +385,8 @@
           <input type="number" id="generateCount" value="1" min="1" max="500" />
         </div>
         <button id="generateBtn">Generate</button>
+        <div class="copy-hint" id="copyHint">Click a row to copy · <span id="copyAllBtn">📋 Copy all</span></div>
         <div id="generatedIbans"></div>
-        <div class="copy-hint">Click a row to copy · <span id="copyAllBtn">📋 Copy all</span></div>
       </div>
       
       <div class="info">Supports all EU and international IBANs</div>

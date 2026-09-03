@@ -78,36 +78,6 @@ generateBtn.addEventListener("click", () => {
   renderGenerationTable(ibans);
 });
 
-function renderGenerationTable(ibans) {
-  const container = document.getElementById("generatedIbans");
-  container.innerHTML = "";
-
-  const table = document.createElement("table");
-  const tbody = document.createElement("tbody");
-
-  ibans.forEach(iban => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${iban}</td>`;
-    tr.addEventListener("click", () => {
-      navigator.clipboard.writeText(iban).then(() => {
-        tr.classList.add("copied");
-        setTimeout(() => tr.classList.remove("copied"), 1000);
-      });
-    });
-    tbody.appendChild(tr);
-  });
-
-  table.appendChild(tbody);
-  container.appendChild(table);
-
-  document.querySelector(".copy-hint").style.display = "block";
-
-  showCsvButton("generateCsvBtn", () => exportCsv(
-    ["#", "IBAN"],
-    ibans.map((iban, i) => [i + 1, iban])
-  ));
-}
-
 copyAllBtn.addEventListener("click", () => {
     const rows = document.querySelectorAll("#generatedIbans tbody tr");
     const text = Array.from(rows).map(tr => tr.querySelector("td").textContent).join("\n") + "\n";

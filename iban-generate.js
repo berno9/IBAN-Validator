@@ -40,3 +40,33 @@ function calculateCheckDigits(iban) {
 
   return (98 - (parseInt(remainder, 10) % 97)).toString().padStart(2, "0");
 }
+
+function renderGenerationTable(ibans) {
+  const container = document.getElementById("generatedIbans");
+  container.innerHTML = "";
+
+  const table = document.createElement("table");
+  const tbody = document.createElement("tbody");
+
+  ibans.forEach(iban => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${iban}</td>`;
+    tr.addEventListener("click", () => {
+      navigator.clipboard.writeText(iban).then(() => {
+        tr.classList.add("copied");
+        setTimeout(() => tr.classList.remove("copied"), 1000);
+      });
+    });
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  container.appendChild(table);
+
+  document.querySelector(".copy-hint").style.display = "block";
+
+  showCsvButton("generateCsvBtn", () => exportCsv(
+    ["#", "IBAN"],
+    ibans.map((iban, i) => [i + 1, iban])
+  ));
+}
