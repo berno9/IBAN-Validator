@@ -89,13 +89,21 @@ copyAllBtn.addEventListener("click", () => {
     });
 });
 
-toggleBtn.addEventListener("click", () => {
-    const table = document.querySelector("#generatedIbans table");
-    if (!table) return;
-    const isVisible = table.style.display ==! "none";
-    table.style.display = isVisible ? "none" : "";
-    toggleBtn.textContent = isVisible ? "▸" : "▾";
-});
+// ---------- Toggle table appearance ----------
+
+function setupToggle(toggleId, targetId) {
+    const toggle = document.getElementById(toggleId);
+    toggle.addEventListener("click", () => {
+        const table = document.querySelector(`#${targetId} table`);
+        if (!table) return;
+        const isVisible = table.style.display !== "none";
+        table.style.display = isVisible ? "none" : "";
+        toggle.textContent = isVisible ? "▸" : "▾";
+    });
+}
+
+setupToggle("toggleGenerated", "generatedIbans");
+setupToggle("toggleValidation", "result");
 
 // ---------- Input formatting ----------
 

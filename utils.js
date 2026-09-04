@@ -7,7 +7,7 @@ function showCsvButton(id, handler) {
     btn.textContent = "Download CSV";
     btn.addEventListener("click", handler);
     document.getElementById(
-      id === "validateCsvBtn" ? "result" : "copyHint"
+      id === "validateCsvBtn" ? "validationHeader" : "copyHint"
     ).before(btn);
   }
   btn.style.display = "block";

@@ -103,6 +103,36 @@
       margin-top: 8px;
       display: none;
     }
+
+    #validationHeader {
+      display: none;
+      align-items: center;
+      margin: 8px auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #validationHeaderLine {
+      flex: 1;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    #toggleValidation {
+      cursor: pointer;
+      color: #aaa;
+      font-size: 16px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+
+    #toggleValidation:hover {
+      color: #007acc;
+      background: #e8f4fc;
+      border-color: #007acc;
+    }
       
       #result { 
           border-radius: 6px;
@@ -111,7 +141,7 @@
         }
 
         #result:not(:empty) {
-          margin-top: 16px;
+          margin: 0px auto; /* validation header controls spacing above this */
           padding: 12px;
         }
       
@@ -393,8 +423,11 @@
         <button id="validateBtn" style="flex: 1">Validate</button>
         <button id="scanBtn">Scan Page</button>
       </div>
-
       <div id="scanStatus"></div>
+      <div id="validationHeader">
+          <span id="validationHeaderLine">──── Results</span>
+          <span id="toggleValidation">▾</span>
+      </div>
       <div id="result"></div>
       
       <div class="section-divider"></div>

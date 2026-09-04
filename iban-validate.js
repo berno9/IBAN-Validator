@@ -73,6 +73,9 @@ function renderValidationResults(ibans) {
 }
 
 function renderValidationTable(rows) {
+
+    document.getElementById("validationHeader").style.display = "flex";
+
   const resultDiv = document.getElementById("result");
   resultDiv.className = "";
   resultDiv.innerHTML = "";
