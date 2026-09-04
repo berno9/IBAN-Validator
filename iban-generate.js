@@ -63,7 +63,7 @@ function renderGenerationTable(ibans) {
   table.appendChild(tbody);
   container.appendChild(table);
 
-  document.querySelector(".copy-hint").style.display = "block";
+  document.querySelector(".copy-hint").style.display = "flex";
 
   showCsvButton("generateCsvBtn", () => exportCsv(
     ["#", "IBAN"],

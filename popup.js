@@ -4,6 +4,7 @@ const validateBtn = document.getElementById("validateBtn");
 const scanBtn = document.getElementById("scanBtn");
 const generateBtn = document.getElementById("generateBtn");
 const copyAllBtn = document.getElementById("copyAllBtn");
+const toggleBtn = document.getElementById("toggleGenerated");
 
 
 validateBtn.addEventListener("click", () => {
@@ -86,6 +87,14 @@ copyAllBtn.addEventListener("click", () => {
         copyAll.textContent = "Copied!";
         setTimeout(() => copyAll.textContent = original, 1000);
     });
+});
+
+toggleBtn.addEventListener("click", () => {
+    const table = document.querySelector("#generatedIbans table");
+    if (!table) return;
+    const isVisible = table.style.display ==! "none";
+    table.style.display = isVisible ? "none" : "";
+    toggleBtn.textContent = isVisible ? "▸" : "▾";
 });
 
 // ---------- Input formatting ----------
