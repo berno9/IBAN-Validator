@@ -16,8 +16,8 @@ validateBtn.addEventListener("click", () => {
   const resultDiv = document.getElementById("result");
 
   if (!lines.length) {
-    resultDiv.textContent = "Please enter at least one IBAN";
     resultDiv.className = "warning";
+    resultDiv.textContent = "Please enter at least one IBAN";
     return;
   }
 
