@@ -145,7 +145,7 @@ document.getElementById("ibanInput").addEventListener("keypress", (e) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   populateCountryDropdown();
-    const options = document.querySelectorAll("#countrySelect option[value]");
+    const options = document.querySelectorAll("#countrySelect option[value]:not([value=''])");
     const random = options[Math.floor(Math.random() * options.length)];
     random.selected = true;
 });
