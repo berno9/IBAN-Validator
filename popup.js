@@ -8,6 +8,9 @@ const toggleBtn = document.getElementById("toggleGenerated");
 
 
 validateBtn.addEventListener("click", () => {
+
+  document.getElementById("toggleValidation").textContent = "▾";
+
   const lines = document.getElementById("ibanInput").value
     .split("\n")
     .map(l => l.trim())
@@ -18,6 +21,9 @@ validateBtn.addEventListener("click", () => {
   if (!lines.length) {
     resultDiv.className = "warning";
     resultDiv.textContent = "Please enter at least one IBAN";
+    document.getElementById("validateCsvBtn").style.display = "none";
+    document.getElementById("validationHeader").style.display = "none"; 
+    document.getElementById("scanStatus").style.display = "none"; // no issues because they always exist
     return;
   }
 
