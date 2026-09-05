@@ -6,7 +6,7 @@ function validateIBANDetailed(iban) {
   }
 
   if (!/^[A-Z]{2}[0-9]{2}/.test(iban)) {
-    return { isValid: false, message: "IBAN must start with 2 letters and 2 digits" };
+    return { isValid: false, message: "Must start with 2 letters and 2 digits" };
   }
 
   const countryCode = iban.slice(0, 2);
@@ -17,7 +17,7 @@ function validateIBANDetailed(iban) {
   }
 
   if (iban.length !== country.length) {
-    return { isValid: false, message: `Invalid length for ${countryCode}: expected ${country.length}, got ${iban.length}` };
+    return { isValid: false, message: `Invalid ${countryCode} length: expected ${country.length}, got ${iban.length}` };
   }
 
   if (!/^[A-Z0-9]+$/.test(iban)) {
