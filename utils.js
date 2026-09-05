@@ -5,11 +5,14 @@ function showCsvButton(id, handler) {
     btn.className = "csv-btn";
     btn.id = id;
     btn.textContent = "Download CSV";
-    btn.addEventListener("click", handler);
     document.getElementById(
       id === "validateCsvBtn" ? "validationHeader" : "copyHint"
     ).before(btn);
+  } else {
+    btn.replaceWith(btn.cloneNode(true)); 
+    btn = document.getElementById(id);
   }
+  btn.addEventListener("click", handler);
   btn.style.display = "block";
 }
 
