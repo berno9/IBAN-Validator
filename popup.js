@@ -89,9 +89,9 @@ copyAllBtn.addEventListener("click", () => {
     const rows = document.querySelectorAll("#generatedIbans tbody tr");
     const text = Array.from(rows).map(tr => tr.querySelector("td").textContent).join("\n") + "\n";
     navigator.clipboard.writeText(text).then(() => {
-        const original = copyAll.textContent;
-        copyAll.textContent = "Copied!";
-        setTimeout(() => copyAll.textContent = original, 1000);
+        const original = copyAllBtn.textContent;
+        copyAllBtn.textContent = "Copied!";
+        setTimeout(() => copyAllBtn.textContent = original, 1000);
     });
 });
 
