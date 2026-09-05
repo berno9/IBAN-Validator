@@ -2,7 +2,7 @@ function validateIBANDetailed(iban) {
   iban = iban.replace(/\s+/g, "").toUpperCase();
 
   if (!iban) {
-    return { isValid: false, message: "Please enter an IBAN" };
+    return { isValid: false, message: "Enter an IBAN" };
   }
 
   if (!/^[A-Z]{2}[0-9]{2}/.test(iban)) {

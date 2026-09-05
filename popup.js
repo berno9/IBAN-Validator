@@ -10,6 +10,7 @@ const toggleBtn = document.getElementById("toggleGenerated");
 validateBtn.addEventListener("click", () => {
 
   document.getElementById("toggleValidation").textContent = "▾";
+  document.getElementById("scanStatus").style.display = "none"; // no issues because they always exist
 
   const lines = document.getElementById("ibanInput").value
     .split("\n")
@@ -20,10 +21,9 @@ validateBtn.addEventListener("click", () => {
 
   if (!lines.length) {
     resultDiv.className = "warning";
-    resultDiv.textContent = "Please enter at least one IBAN";
+    resultDiv.textContent = "Enter at least one IBAN";
     document.getElementById("validateCsvBtn").style.display = "none";
-    document.getElementById("validationHeader").style.display = "none"; 
-    document.getElementById("scanStatus").style.display = "none"; // no issues because they always exist
+    document.getElementById("validationHeader").style.display = "none"; // no issues because they always exist
     return;
   }
 
@@ -56,7 +56,7 @@ scanBtn.addEventListener("click", async () => {
     const ibans = results[0].result;
 
     if (!ibans.length) {
-        scanStatus.textContent = "No IBANs found on this page.";
+        scanStatus.textContent = "No IBANs found on this page";
         scanStatus.style.display = "block";
         return;
     }
@@ -73,11 +73,14 @@ scanBtn.addEventListener("click", async () => {
 // ---------- Generation ----------
 
 generateBtn.addEventListener("click", () => {
+
+  document.getElementById("toggleGenerated").textContent = "▾";
+
   const countryCode = document.getElementById("countrySelect").value;
   const count = parseInt(document.getElementById("generateCount").value, 10);
 
   if (!countryCode) {
-    alert("Please select a country first");
+    alert("Select a country first");
     return;
   }
 
