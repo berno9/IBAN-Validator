@@ -88,6 +88,7 @@ iban_validator/
 ├── iban-data.js        # Shared country data and IBAN structures
 ├── iban-validate.js    # Validation and parsing logic
 ├── iban-generate.js    # Generation logic
+├── utils.js            # Csv helpers
 ├── icon_128x128.png    # Extension icon
 ├── README.md           # This file
 └── PRIVACY.md          # Privacy policy
