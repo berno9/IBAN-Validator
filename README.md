@@ -119,3 +119,7 @@ This extension operates entirely offline and does not collect, store, or transmi
 
 - **Repository**: [github.com/berno9/IBAN-Validator](https://github.com/berno9/IBAN-Validator)
 - **Issues**: Report bugs or request features via GitHub Issues
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
