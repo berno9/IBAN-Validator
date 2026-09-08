@@ -1,6 +1,6 @@
 # Privacy Policy — IBAN Validator
 
-**Last Updated**: June 26, 2026
+**Last Updated**: September 8, 2026
 
 ## Summary
 
@@ -16,7 +16,7 @@ All processing is done entirely on your device. The extension requires no intern
 
 ## Permissions
 
-The extension requests no browser permissions. It has no access to your browsing data, other websites, or your file system.
+The extension requests `activeTab` and `scripting` permissions exclusively to support the Scan Page feature. These are only activated when you explicitly click the Scan Page button. No page content is stored, transmitted, or retained in any form after the scan completes.
 
 ## Third-Party Services
 

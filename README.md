@@ -8,6 +8,7 @@ Install via [Chrome Web Store](https://chromewebstore.google.com/detail/iban-val
 
 ### Validation
 - Paste one or more IBANs (one per line) and validate all at once
+- Scan the current page for IBANs with one click
 - Results displayed in a table showing status, country, bank code, branch code, and account number
 - Invalid IBANs show the exact reason they failed
 - Export results as CSV
@@ -45,9 +46,10 @@ All EU countries plus: UAE, Bahrain, Jordan, Kuwait, Lebanon, Qatar, Saudi Arabi
 ### Validation
 1. Click the extension icon in your toolbar
 2. Paste one or more IBANs into the text area, one per line
-3. Click "Validate" or press Enter
-4. Review results in the table — green rows are valid, red rows are invalid
-5. Download as CSV if needed
+3. Alternatively, click "Scan Page" to automatically extract IBANs from the current page
+4. Click "Validate" or press Enter
+5. Review results in the table — green rows are valid, red rows are invalid
+6. Download as CSV if needed
 
 ### Generation
 1. Select a country from the dropdown
@@ -62,9 +64,9 @@ All EU countries plus: UAE, Bahrain, Jordan, Kuwait, Lebanon, Qatar, Saudi Arabi
 
 ## Technical Details
 
-- **Version**: 1.3
+- **Version**: 1.4
 - **Manifest Version**: 3
-- **Permissions**: None required
+- **Permissions**: `activeTab`, `scripting` (used only for Scan Page)
 - **Dependencies**: Vanilla JavaScript
 - **Validation Standard**: ISO 13616
 - **Browser Support**: Chrome, Edge, and other Chromium-based browsers
@@ -111,7 +113,7 @@ Contributions are welcome. Feel free to open issues or submit pull requests.
 
 ## Privacy
 
-This extension operates entirely offline and does not collect, store, or transmit any data. See [PRIVACY.md](PRIVACY.md) for full details.
+This extension operates entirely offline and does not collect, store, or transmit any data. The activeTab and scripting permissions are used solely for the Scan Page feature and are only activated on explicit user action. See [PRIVACY.md](PRIVACY.md) for full details.
 
 ## Support
 

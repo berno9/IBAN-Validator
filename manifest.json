@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "IBAN Validator",
-  "version": "1.3",
-  "description": "Validate and generate IBANs in bulk with detailed parsing and CSV export. Supports 79+ countries.",
+  "version": "1.4",
+  "description": "Validate and generate IBANs with detailed parsing and CSV export. Supports 79+ countries.",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Validate IBAN"
+    "default_title": "Validate & Generate IBANs"
   },
   "permissions": ["activeTab", "scripting"],
   "icons": {
